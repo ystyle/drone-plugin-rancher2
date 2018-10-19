@@ -70,6 +70,7 @@ func buildRequest(method string, data string) []byte {
 	return body
 }
 
+// 格式化json
 func formatJson(data []byte) string {
 	var out bytes.Buffer
 	json.Indent(&out, data, "", "  ")

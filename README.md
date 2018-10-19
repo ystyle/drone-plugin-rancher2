@@ -1,4 +1,5 @@
-# drone 更新 rancher workload 插件
+# drone-plugin-rancher2
+>NOTE: only can update image name
 
 ### Usage
 ```yml
