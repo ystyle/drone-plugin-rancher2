@@ -16,4 +16,4 @@ pipeline:
 - `api` workload api url
 - `access_key` rancher user api keys
 - `secret_key` rancher user api keys
-- `data` api result's containers field
+- `data` api result's containers field, only support `name` and `image` field
