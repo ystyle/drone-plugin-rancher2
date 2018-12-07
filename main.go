@@ -28,6 +28,7 @@ var (
 type container struct {
 	Name  string `json:"name"`  // 名称
 	Image string `json:"image"` // 镜像
+	Env   string `json:"env"`   // 参宿
 }
 
 // DATA 字段
@@ -39,6 +40,17 @@ func (cs containers) get(name string) string {
 		c := cs[i]
 		if c.Name == name {
 			return c.Image
+		}
+	}
+	return ""
+}
+
+// 取容器名称对应的image
+func (cs containers) getenv(name string) string {
+	for i := 0; i < len(cs); i++ {
+		c := cs[i]
+		if c.Name == name {
+			return c.Env
 		}
 	}
 	return ""
@@ -116,6 +128,18 @@ func main() {
 			image := cs.get(name)
 			if image != "" {
 				csItem["image"] = image
+			}
+			env := cs.getenv(name)
+			if env != "" {
+				//csItem["environment"] = image
+				envData, ok := csItem["environment"]
+				if !ok {
+					log.Printf("An error occurred during parse rancher workload metadata with environment: %s", err.Error())
+					os.Exit(1)
+				}
+				envs := envData.(map[string]interface{})
+				envs["tag"] = env
+
 			}
 		}
 	}
