@@ -131,7 +131,6 @@ func main() {
 			}
 			env := cs.getenv(name)
 			if env != "" {
-				//csItem["environment"] = image
 				envData, ok := csItem["environment"]
 				if !ok {
 					log.Printf("An error occurred during parse rancher workload metadata with environment: %s", err.Error())
