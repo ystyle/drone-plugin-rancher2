@@ -26,9 +26,9 @@ var (
 
 // DATA 字段元素
 type container struct {
-	Name  string `json:"name"`  // 名称
-	Image string `json:"image"` // 镜像
-	Env   string `json:"env"`   // 参宿
+	Name        string                 `json:"name"`        // 名称
+	Image       string                 `json:"image"`       // 镜像
+	Environment map[string]interface{} `json:"environment"` // 参宿
 }
 
 // DATA 字段
@@ -46,14 +46,14 @@ func (cs containers) get(name string) string {
 }
 
 // 取容器名称对应的image
-func (cs containers) getenv(name string) string {
+func (cs containers) getEnvironment(name string) map[string]interface{} {
 	for i := 0; i < len(cs); i++ {
 		c := cs[i]
 		if c.Name == name {
-			return c.Env
+			return c.Environment
 		}
 	}
-	return ""
+	return nil
 }
 
 // 构建请求并返回结果
@@ -98,6 +98,7 @@ func init() {
 
 func main() {
 	data := os.Getenv("PLUGIN_DATA")
+
 	// 打印参数
 	log.Printf("\n API %s \n ACCESS_KEY: %s\n SECRET_KEY: %s\n DATA: %s", api, accessKey, secretKey, data)
 
@@ -129,16 +130,19 @@ func main() {
 			if image != "" {
 				csItem["image"] = image
 			}
-			env := cs.getenv(name)
-			if env != "" {
-				envData, ok := csItem["environment"]
-				if !ok {
-					log.Printf("An error occurred during parse rancher workload metadata with environment: %s", err.Error())
-					os.Exit(1)
+			environment := cs.getEnvironment(name)
+			if environment != nil {
+				environmentData, ok := csItem["environment"].(map[string]interface{})
+				if ok {
+					for key, value := range environment {
+						environmentData[key] = value
+					}
+				} else {
+					environmentData := make(map[string]interface{})
+					for key, value := range environment {
+						environmentData[key] = value
+					}
 				}
-				envs := envData.(map[string]interface{})
-				envs["tag"] = env
-
 			}
 		}
 	}
