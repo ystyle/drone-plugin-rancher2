@@ -1,3 +1,7 @@
+![Docker Pulls](https://img.shields.io/docker/pulls/ystyle/drone-plugin-rancher2)
+[![](https://images.microbadger.com/badges/version/ystyle/drone-plugin-rancher2.svg)](https://microbadger.com/images/ystyle/drone-plugin-rancher2 "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/ystyle/drone-plugin-rancher2.svg)](https://microbadger.com/images/ystyle/drone-plugin-rancher2 "Get your own image badge on microbadger.com")
+
 # drone-plugin-rancher2
 >NOTE: only can update image name
 
