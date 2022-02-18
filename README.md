@@ -5,6 +5,29 @@
 >NOTE: only can update image name
 
 ### Usage
+- rancher 2.6.3 以上
+  ```yaml
+  steps:
+    - name: deploy-uat
+      image: ystyle/drone-plugin-rancher2:2.6
+      when:
+        branch: master
+        event: [push]
+      environment:
+        SERVER:
+          from_secret: SERVER
+        TOKEN:
+          from_secret: TOKEN
+      commands:
+        - /setup.sh
+        - kubectl set image deployment/${DRONE_REPO_NAME} ${DRONE_REPO_NAME}=registry.cn-hangzhou.aliyuncs.com/dexdev/${DRONE_REPO_NAME}:${DRONE_COMMIT_BRANCH}-${DRONE_BUILD_NUMBER}
+
+  ```
+  >server和token取自集群-右上搜索图标旁边kubectl config的server和token
+  ![image](https://user-images.githubusercontent.com/4478635/154631389-70fe7290-5768-4bd1-8476-240330514de9.png)w
+
+
+
 - drone 1.x
 ```yml
 steps:
